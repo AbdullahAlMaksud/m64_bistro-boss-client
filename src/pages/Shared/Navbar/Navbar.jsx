@@ -1,18 +1,14 @@
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const navMenu = <>
-    <li><a>Item 1</a></li>
-    <li>
-      <details>
-        <summary>Parent</summary>
-        <ul className="p-2">
-          <li><a>Submenu 1</a></li>
-          <li><a>Submenu 2</a></li>
-        </ul>
-      </details>
-    </li>
-    <li><a>Item 3</a></li>
+    <li><Link to={'/'}>Home</Link></li>
+    <li><Link to={'/menu'}>Our Menu</Link></li>
+    <li><Link to={'/order/salad'}>Order Food</Link></li>
+
   </>
+
+
   return (
     <div>
       <div className="navbar fixed z-10 bg-opacity-30 bg-black text-white max-w-screen-xl mx-auto">
