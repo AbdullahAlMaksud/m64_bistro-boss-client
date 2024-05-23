@@ -12,7 +12,7 @@ import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 // import slide6 from '../../../assets/home/slide6.jpg';
 const Category = () => {
     return (
-        <sertion>
+        <section>
 <SectionTitle
 heading={'Order Online'}
 subHeading={'From 11.00am to 10.00pm'}
@@ -51,7 +51,7 @@ subHeading={'From 11.00am to 10.00pm'}
                     </SwiperSlide>
                 </Swiper>
             </>
-        </sertion>
+        </section>
     );
 };
 
