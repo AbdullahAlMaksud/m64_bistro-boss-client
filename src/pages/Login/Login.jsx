@@ -1,73 +1,80 @@
 import { useContext, useEffect, useState } from 'react';
-import { loadCaptchaEnginge, LoadCanvasTemplate,  validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { AuthContex } from '../../Provider/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
+import cover from '../../assets/others/authentication2.png'
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 
 
 const Login = () => {
-    const {signIn} = useContext(AuthContex);
+    const { signIn } = useContext(AuthContex);
     const [disable, setDisable] = useState(true)
     const navigate = useNavigate();
     const location = useLocation();
 
     const from = location.state?.from?.pathname || '/';
     console.log('state in the, location', location.state);
-    useEffect(()=>{
+    useEffect(() => {
         loadCaptchaEnginge(6)
-    },[])
+    }, [])
 
-    const handleLogin = e =>{
+    const handleLogin = e => {
         e.preventDefault()
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log({email, password})
+        console.log({ email, password })
         signIn(email, password)
-        .then(result=>{
-            const user = result.user;
-            console.log(user)
-            Swal.fire({
-                title: "User Login Successful.",
-                showClass: {
-                  popup: `
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+                Swal.fire({
+                    title: "User Login Successful.",
+                    showClass: {
+                        popup: `
                     animate__animated
                     animate__fadeInDown
                   `
-                },
-                hideClass: {
-                  popup: `
+                    },
+                    hideClass: {
+                        popup: `
                     animate__animated
                     animate__fadeOutUp
                   `
-                }
-              });
-              navigate(from, {replace: true});
-        })
+                    }
+                });
+                navigate(from, { replace: true });
+            })
     }
 
-    const handleValidateCaptcha=(e)=>{
+    const handleValidateCaptcha = (e) => {
         const user_captcha_value = e.target.value
-        if(validateCaptcha(user_captcha_value)){
+        if (validateCaptcha(user_captcha_value)) {
             setDisable(false)
         }
-        else{
+        else {
             setDisable(true)
         }
     }
     return (
-        <div className="hero min-h-screen bg-base-200">
+        <div className="min-h-screen flex items-center justify-between min-w-full">
             <Helmet>
                 <title>Bistro Boss | Login</title>
             </Helmet>
-            <div className="hero-content flex-col lg:flex-row">
-                <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Login now!</h1>
-                    <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+            <div className="flex flex-col lg:flex-row bg-base-200 min-h-fit py-10 shadow-2xl shadow-black/50 border-b-8  border-[#D1A054] justify-between w-full rounded-md items-center lg:px-10">
+
+
+                <div className="text-center lg:text-left flex-1 flex items-center justify-center">
+                    <img src={cover} className="" alt="" />
                 </div>
-                <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <form onSubmit={handleLogin} className="card-body">
+
+
+
+                <div className="w-full max-w-sm">
+                    <h1 className="text-3xl font-bold text-center">Login now!</h1>
+                    <form onSubmit={handleLogin} className="">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -85,16 +92,22 @@ const Login = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                            < LoadCanvasTemplate />
+                                < LoadCanvasTemplate />
                             </label>
-                            <input onBlur={handleValidateCaptcha} type="text" name="captcha" placeholder='Type the captcha' className="input input-bordered" required />
-                            <button  className='btn btn-outline btn-xs mt-2'>Validate</button>
+                            {/* <input onBlur={handleValidateCaptcha} type="text" name="captcha" placeholder='Type the captcha' className="input input-bordered" required /> */}
+                            {/* <button className='btn btn-outline btn-xs mt-2'>Validate</button> */}
                         </div>
                         <div className="form-control mt-6">
-                            <button disabled={disable} className="btn btn-primary">Login</button>
+                            <button className="btn bg-[#D1A054] hover:bg-[#654b24] text-white">Login</button>
                         </div>
                     </form>
-                    <p><small>New Here? <Link to={'/signup'}>Create an account</Link></small></p>
+                    <p className="text-center pt-2 text-[#D1A054] "><small>New Here? <Link className='font-bold' to={'/signup'}>Create an account</Link></small></p>
+                    <div className='text-center flex flex-col items-center'>
+                        <p className='pb-3 pt-2'>Or sign in with</p>
+
+                        <SocialLogin/>
+
+                    </div>
                 </div>
             </div>
         </div>
